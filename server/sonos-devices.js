@@ -44,10 +44,9 @@ function getZoneDevices(zone, deviceList) {
 }
 
 function getZoneCoordinator(zone, deviceList) {
-  const coordinator = deviceList.filter(device => {
+  return deviceList.find(device => {
     return (device.CurrentZoneName === zone && device.coordinator === 'true');
   });
-  return coordinator.pop();
 }
 
 exports.getZoneCoordinator = getZoneCoordinator;
