@@ -22,14 +22,14 @@ function nowplaying({ ip, port }) {
 exports.albumcolor = (device) => {
   return nowplaying(device)
     .then(track => {
-      // console.log(track);
+      console.log(`${track.title} - ${track.artist}`);
       const { albumArtURL } = track;
       const dest = `/tmp/albumart-${Date.now()}.jpg`;
       return download.image({ url: albumArtURL, dest });
     })
     .then(({ filename, image }) => {
       const color = ct.getColor(image);
-      // console.log(color);
+      console.log(`Album color: ${color}`);
       return color;
     })
 }
