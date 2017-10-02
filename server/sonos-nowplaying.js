@@ -19,19 +19,18 @@ function nowplaying({ ip, port }) {
   });
 }
 
-exports.albumcolor = (device) => {
-  return nowplaying(device)
-    .then(track => {
-      console.log(`${track.title} - ${track.artist}`);
-      const { albumArtURL } = track;
-      const dest = `/tmp/albumart-${Date.now()}.jpg`;
-      return download.image({ url: albumArtURL, dest });
-    })
-    .then(({ filename, image }) => {
-      const color = ct.getColor(image);
-      console.log(`Album color: ${color}`);
-      return color;
-    })
+exports.albumcolor = (track) => {
+  return new Promise((Resolve, Reject) => {
+    console.log(`${track.title} - ${track.artist}`);
+    const { albumArtURL } = track;
+    const dest = `/tmp/albumart-${Date.now()}.jpg`;
+    download.image({ url: albumArtURL, dest })
+      .then(({ filename, image }) => {
+        const color = ct.getColor(image);
+        console.log(`Album color: ${color}`);
+        Resolve(color);
+      })
+  })
 }
 
-exports.nowplaying = nowplaying
+exports.nowplaying = nowplaying;
